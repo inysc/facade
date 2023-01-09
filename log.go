@@ -3,7 +3,7 @@ package facade
 import "context"
 
 type (
-	Level uint8
+	Level = uint8
 
 	Logger interface {
 		Trace(string)
@@ -31,7 +31,7 @@ type (
 )
 
 const (
-	TRACE = iota
+	TRACE Level = iota
 	DEBUG
 	INFO
 	WARN
