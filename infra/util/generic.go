@@ -16,6 +16,21 @@ func (j *JSON) UnmarshalBinary(data []byte) error      { return json.Unmarshal(d
 func (a Addr[T]) MarshalBinary() (data []byte, err error) { return json.Marshal(a) }
 func (a *Addr[T]) UnmarshalBinary(data []byte) error      { return json.Unmarshal(data, a) }
 
+func (j JSON) Value() (driver.Value, error) {
+	bs, err := json.Marshal(j)
+	return string(bs), err
+}
+
+func (j *JSON) Scan(value any) error {
+	switch value := value.(type) {
+	case string:
+		return json.Unmarshal([]byte(value), j)
+	case []byte:
+		return json.Unmarshal(value, j)
+	}
+	return nil
+}
+
 func (a Addr[T]) Value() (driver.Value, error) {
 	bs, err := json.Marshal(a)
 	return string(bs), err
